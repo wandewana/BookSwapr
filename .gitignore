@@ -1,7 +1,15 @@
-﻿/target
-*.log
+﻿# Maven build output
+target/
 *.class
-/.idea
+*.jar
+
+# IDE/editor settings
+/.idea/
 *.iml
 .DS_Store
+
+# Logs
+*.log
+
+# Postgres bind-mounted data (if ever used again)
 infra/postgres/data/
