@@ -32,4 +32,9 @@ public class AuthController {
     public ResponseEntity<String> test() {
         return ResponseEntity.ok("Hello, World!");
     }
+
+    @GetMapping("/error")
+    public ResponseEntity<Void> error() {
+        throw new RuntimeException("This is a test exception!");
+    }
 }
