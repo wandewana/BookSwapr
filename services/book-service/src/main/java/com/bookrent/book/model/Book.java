@@ -31,4 +31,7 @@ public class Book {
     private Double latitude;
 
     private Double longitude;
+
+    @Column(nullable = false)
+    private Long userId;
 }

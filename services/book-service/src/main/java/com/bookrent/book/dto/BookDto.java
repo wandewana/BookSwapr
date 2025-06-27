@@ -17,4 +17,5 @@ public class BookDto {
     private Integer publicationYear;
     private Double latitude;
     private Double longitude;
+    private Long userId;
 }

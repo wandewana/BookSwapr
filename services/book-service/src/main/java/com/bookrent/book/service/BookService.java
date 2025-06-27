@@ -44,6 +44,7 @@ public class BookService {
                                         existingBook.setPublicationYear(bookDto.getPublicationYear());
                     existingBook.setLatitude(bookDto.getLatitude());
                     existingBook.setLongitude(bookDto.getLongitude());
+                    existingBook.setUserId(bookDto.getUserId());
                     Book updatedBook = bookRepository.save(existingBook);
                     return toDto(updatedBook);
                 })
@@ -89,6 +90,7 @@ public class BookService {
                 .publicationYear(book.getPublicationYear())
                 .latitude(book.getLatitude())
                 .longitude(book.getLongitude())
+                .userId(book.getUserId())
                 .build();
     }
 
@@ -101,6 +103,7 @@ public class BookService {
                 .publicationYear(bookDto.getPublicationYear())
                 .latitude(bookDto.getLatitude())
                 .longitude(bookDto.getLongitude())
+                .userId(bookDto.getUserId())
                 .build();
     }
 }
