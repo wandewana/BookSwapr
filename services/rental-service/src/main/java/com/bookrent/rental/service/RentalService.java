@@ -4,7 +4,10 @@ import com.bookrent.rental.dto.RentalRequest;
 import com.bookrent.rental.model.Rental;
 import com.bookrent.rental.model.RentalStatus;
 import com.bookrent.rental.repository.RentalRepository;
+import com.bookrent.rental.config.RabbitMQConfig;
+import com.bookrent.rental.dto.RentalEvent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,6 +17,7 @@ import java.time.LocalDateTime;
 public class RentalService {
 
     private final RentalRepository rentalRepository;
+    private final RabbitTemplate rabbitTemplate;
 
     public Rental rentBook(RentalRequest rentalRequest) {
         rentalRepository.findByBookIdAndStatus(rentalRequest.getBookId(), RentalStatus.RENTED)
@@ -25,11 +29,16 @@ public class RentalService {
                 .userId(rentalRequest.getUserId())
                 .bookId(rentalRequest.getBookId())
                 .rentedAt(LocalDateTime.now())
-                .deadline(LocalDateTime.now().plusWeeks(2))
+                .deadline(LocalDateTime.now().plusDays(7))
                 .status(RentalStatus.RENTED)
                 .build();
 
-        return rentalRepository.save(rental);
+        Rental savedRental = rentalRepository.save(rental);
+
+        RentalEvent event = new RentalEvent(savedRental.getId(), savedRental.getBookId(), savedRental.getUserId(), savedRental.getStatus(), LocalDateTime.now());
+        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY_RENTAL_CREATED, event);
+
+        return savedRental;
     }
 
     public Rental returnBook(Long rentalId) {
@@ -39,6 +48,11 @@ public class RentalService {
         rental.setStatus(RentalStatus.RETURNED);
         rental.setReturnedAt(LocalDateTime.now());
 
-        return rentalRepository.save(rental);
+        Rental savedRental = rentalRepository.save(rental);
+
+        RentalEvent event = new RentalEvent(savedRental.getId(), savedRental.getBookId(), savedRental.getUserId(), savedRental.getStatus(), LocalDateTime.now());
+        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY_RENTAL_RETURNED, event);
+
+        return savedRental;
     }
 }
