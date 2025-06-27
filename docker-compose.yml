@@ -28,6 +28,14 @@ services:
     ports:
       - "80:80"
 
+  book-service:
+    build:
+      context: ./services/book-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
+
   auth-service:
     build:
       context: ./services/auth-service
