@@ -44,5 +44,13 @@ services:
     depends_on:
       - postgres
 
+  rental-service:
+    build:
+      context: ./services/rental-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - postgres
+
 volumes:
   pgdata:
