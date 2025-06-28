@@ -1,6 +1,6 @@
-package com.bookrent.rental.dto;
+package com.bookrent.notification.dto;
 
-import com.bookrent.rental.model.RentalStatus;
+import com.bookrent.notification.model.RentalStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

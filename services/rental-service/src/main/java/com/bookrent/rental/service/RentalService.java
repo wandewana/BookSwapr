@@ -35,7 +35,7 @@ public class RentalService {
 
         Rental savedRental = rentalRepository.save(rental);
 
-        RentalEvent event = new RentalEvent(savedRental.getId(), savedRental.getBookId(), savedRental.getUserId(), savedRental.getStatus(), LocalDateTime.now());
+        RentalEvent event = new RentalEvent(savedRental.getId(), savedRental.getBookId(), savedRental.getUserId(), savedRental.getStatus(), LocalDateTime.now(), savedRental.getDeadline());
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY_RENTAL_CREATED, event);
 
         return savedRental;
@@ -50,7 +50,7 @@ public class RentalService {
 
         Rental savedRental = rentalRepository.save(rental);
 
-        RentalEvent event = new RentalEvent(savedRental.getId(), savedRental.getBookId(), savedRental.getUserId(), savedRental.getStatus(), LocalDateTime.now());
+        RentalEvent event = new RentalEvent(savedRental.getId(), savedRental.getBookId(), savedRental.getUserId(), savedRental.getStatus(), LocalDateTime.now(), savedRental.getDeadline());
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY_RENTAL_RETURNED, event);
 
         return savedRental;
