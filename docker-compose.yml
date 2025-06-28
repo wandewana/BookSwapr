@@ -62,5 +62,13 @@ services:
       - postgres
       - rabbitmq
 
+  donation-service:
+    build:
+      context: ./services/donation-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      - postgres
+
 volumes:
   pgdata:

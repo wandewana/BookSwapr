@@ -20,6 +20,7 @@
         <module>services/book-service</module>
         <module>services/rental-service</module>
         <module>services/notification-service</module>
+        <module>services/donation-service</module>
     </modules>
     <properties>
         <java.version>17</java.version>
